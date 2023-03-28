@@ -8,11 +8,11 @@ Console.WriteLine($"1. Addition" +
                   $"\n0. Exit\n");
 
 string line;
-while(!String.IsNullOrEmpty(line = Console.ReadLine()))
+while (!String.IsNullOrEmpty(line = Console.ReadLine()))
 {
     int selectedOption = int.Parse(line);
 
-    if(selectedOption < 0 || selectedOption > 4)
+    if (selectedOption < 0 || selectedOption > 4)
     {
         Console.WriteLine(" ----------- You must choose a valid option -----------");
     }
@@ -21,7 +21,17 @@ while(!String.IsNullOrEmpty(line = Console.ReadLine()))
     {
         break;
     }
-
+    
+    for (int i = 0; i < 10; i++)
+    {
+        int firstNumber = new Random().Next(101);
+        switch (selectedOption)
+        {
+            case 1:
+                Console.WriteLine(firstNumber);
+                break;
+        }
+    }
 }
 
 Console.WriteLine("----------- Thanks for playing -----------");
