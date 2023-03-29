@@ -1,4 +1,5 @@
 ﻿int game = 1;
+int difficult = 50;
 string welcomeLine = "\nWelcome to the Math Game, please write the number of the option that you want to choose";
 string menuOptions = "1. Addition" +
                   "\n2. Substraction" +
@@ -20,7 +21,7 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
     int correctAnswers;
     int numberQuestions = 4;
 
-    if (selectedOption < 0 || selectedOption > 5)
+    if (selectedOption < 0 || selectedOption > 6)
     {
         Console.WriteLine("----------- You must choose a valid option -----------");
     }
@@ -40,6 +41,40 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
         }
     }
 
+    if (selectedOption == 6)
+    {
+        difficult = 0;
+        Console.WriteLine("\nSelect difficult" +
+                           "\n1. Easy" +
+                           "\n2. Normal" +
+                           "\n3. Hard"
+        );
+
+        while (difficult == 0)
+        {
+            int.TryParse(Console.ReadLine(), out int responseDifficult);
+
+            switch (responseDifficult)
+            {
+                case 1:
+                    difficult = 10;
+                    break;
+
+                case 2:
+                    difficult = 20;
+                    break;
+
+                case 3:
+                    difficult = 30;
+                    break;
+
+                default:
+                    Console.WriteLine("----------- You must choose a valid option -----------");
+                    break;
+            }
+        }
+    }
+
     if (selectedOption > 0 && selectedOption < 5)
     {
         Console.WriteLine($"----------- Game {game} -----------");
@@ -47,8 +82,8 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
 
         for (int i = 0; i < numberQuestions && i == correctAnswers; i++)
         {
-            int firstNumber = new Random().Next(1, 10);
-            int secondNumber = new Random().Next(1, 10);
+            int firstNumber = new Random().Next(1, difficult);
+            int secondNumber = new Random().Next(1, difficult);
 
             switch (selectedOption)
             {
@@ -56,7 +91,7 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
                     Console.WriteLine($"{firstNumber} + {secondNumber} = ?");
                     int.TryParse(Console.ReadLine(), out int responseAddition);
 
-                    if (responseAddition == firstNumber + secondNumber) 
+                    if (responseAddition == firstNumber + secondNumber)
                     {
                         correctAnswers++;
                         Console.WriteLine("----------- Correct! -----------");
@@ -91,8 +126,8 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
                 case 4:
                     while (firstNumber % secondNumber != 0 || secondNumber == 0)
                     {
-                        firstNumber = new Random().Next(20);
-                        secondNumber = new Random().Next(1, 101);
+                        firstNumber = new Random().Next(0, 100);
+                        secondNumber = new Random().Next(1, difficult);
                     }
 
                     Console.WriteLine($"{firstNumber} / {secondNumber} = ?");
@@ -111,7 +146,8 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
         if (correctAnswers == numberQuestions)
         {
             Console.WriteLine("\n----------- Congratulations, you won! -----------");
-        } else
+        }
+        else
         {
             Console.WriteLine("\n----------- Sorry, you lost -----------");
         }
