@@ -1,5 +1,7 @@
-﻿int game = 1;
-int difficult = 50;
+﻿using System.Diagnostics;
+
+int game = 1;
+int difficult = 20;
 string welcomeLine = "\nWelcome to the Math Game, please write the number of the option that you want to choose";
 string menuOptions = "1. Addition" +
                   "\n2. Substraction" +
@@ -14,12 +16,10 @@ List<string> gamesHistory = new List<string>();
 Console.WriteLine(welcomeLine);
 Console.WriteLine(menuOptions);
 
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 while (!String.IsNullOrEmpty(line = Console.ReadLine()))
 {
     int selectedOption = int.Parse(line);
     int correctAnswers;
-    int numberQuestions = 4;
 
     if (selectedOption < 0 || selectedOption > 6)
     {
@@ -77,7 +77,14 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
 
     if (selectedOption > 0 && selectedOption < 5)
     {
+        Console.WriteLine("\nWrite the number of questions that you want in the game");
+        int.TryParse(Console.ReadLine(), out int numberQuestions);
+
         Console.WriteLine($"----------- Game {game} -----------");
+
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+
         correctAnswers = 0;
 
         for (int i = 0; i < numberQuestions && i == correctAnswers; i++)
@@ -143,6 +150,9 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
             }
         }
 
+        stopwatch.Stop();
+        TimeSpan elapsedTime = stopwatch.Elapsed;
+
         if (correctAnswers == numberQuestions)
         {
             Console.WriteLine("\n----------- Congratulations, you won! -----------");
@@ -152,14 +162,16 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
             Console.WriteLine("\n----------- Sorry, you lost -----------");
         }
 
-        gamesHistory.Add($"Game {game}: {correctAnswers} / {numberQuestions}");
+        gamesHistory.Add($"Game {game}: {correctAnswers} / {numberQuestions} | Time elapsed: {elapsedTime.ToString(@"mm\:ss")}");
         game++;
+
+        Console.WriteLine($"\n----------- Time elapsed: {elapsedTime.ToString(@"mm\:ss")} -----------");
 
     }
 
     Console.WriteLine(welcomeLine);
     Console.WriteLine(menuOptions);
 }
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
 
 Console.WriteLine("----------- Thanks for playing -----------");
