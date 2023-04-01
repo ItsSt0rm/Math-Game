@@ -3,13 +3,17 @@
 int game = 1;
 int difficult = 20;
 string welcomeLine = "\nWelcome to the Math Game, please write the number of the option that you want to choose";
-string menuOptions = "1. Addition" +
-                  "\n2. Substraction" +
-                  "\n3. Multiplication" +
-                  "\n4. Division" +
-                  "\n5. Previous games" +
-                  "\n6. Change difficult (Normal by default)" +
-                  "\n0. Exit\n";
+string menuOptions = @"
+1. Addition
+2. Substraction 
+3. Multiplication
+4. Division
+5. Previous games
+6. Change difficult (Normal by default)
+7. Random mode
+0. Exit
+
+";
 string line;
 List<string> gamesHistory = new List<string>();
 
@@ -20,8 +24,9 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
 {
     int selectedOption = int.Parse(line);
     int correctAnswers;
+    bool randomMode = false;
 
-    if (selectedOption < 0 || selectedOption > 6)
+    if (selectedOption < 0 || selectedOption > 7)
     {
         Console.WriteLine("----------- You must choose a valid option -----------");
     }
@@ -35,20 +40,16 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
     {
         Console.WriteLine("----------- Previous Games -----------\n");
 
-        foreach (var item in gamesHistory)
+        foreach (var gameRecord in gamesHistory)
         {
-            Console.WriteLine(item);
+            Console.WriteLine(gameRecord);
         }
     }
 
     if (selectedOption == 6)
     {
         difficult = 0;
-        Console.WriteLine("\nSelect difficult" +
-                           "\n1. Easy" +
-                           "\n2. Normal" +
-                           "\n3. Hard"
-        );
+        Console.WriteLine("Select difficulty\n1. Easy\n2. Normal\n3. Hard");
 
         while (difficult == 0)
         {
@@ -58,14 +59,17 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
             {
                 case 1:
                     difficult = 10;
+                    Console.WriteLine("----------- Easy difficult setted -----------");
                     break;
 
                 case 2:
                     difficult = 20;
+                    Console.WriteLine("----------- Normal difficult setted -----------");
                     break;
 
                 case 3:
                     difficult = 30;
+                    Console.WriteLine("----------- Hard difficult setted -----------");
                     break;
 
                 default:
@@ -73,6 +77,12 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
                     break;
             }
         }
+    }
+
+    if (selectedOption == 7)
+    {
+        randomMode = true;
+        selectedOption = 1;
     }
 
     if (selectedOption > 0 && selectedOption < 5)
@@ -91,6 +101,8 @@ while (!String.IsNullOrEmpty(line = Console.ReadLine()))
         {
             int firstNumber = new Random().Next(1, difficult);
             int secondNumber = new Random().Next(1, difficult);
+
+            if (randomMode) selectedOption = new Random().Next(1, 5);
 
             switch (selectedOption)
             {
